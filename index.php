@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Test Web Dev & Database</title>
+	<title>Login Admin</title>
 </head>
 <body>
 	<?php
@@ -17,38 +17,42 @@
 		?>
 		<br>
 		<?php
+			if (isset($_SESSION['email'])) 
+			{
+				header("Location: index.php");
+			}
 			if(isset($_POST['sb']))
 			{
-				$namapelanggan = $_POST['nmp'];
-				$alamatpelanggan = $_POST['alp'];
-				$notelppelanggan = $_POST['ntp'];
+				$username = $_POST['usm'];
+				$password = md5($_POST['psw']);
+				$sql = "SELECT * FROM autentication WHERE name_user='$username' AND pass_user='$password'";
+				$result = mysqli_query($conn, $sql);
 
-				$q = mysqli_query($conn, "insert into pelanggan(nama_pelanggan, alamat_pelanggan, notelp_pelanggan) values ('$namapelanggan', '$alamatpelanggan', '$notelppelanggan')");
-
-				if($q)
+				if($result->num_rows>0)
 				{
-					echo "Berhasil Input";
-				}
+					$row=mysqli_fetch_assoc($result);
+					$_SESSION['email'] = $row['email'];
+					header("Location: transaksi.php");
+;				}
 				else
 				{
-					echo "Gagal Input";
+					echo "<script>alert('Username atau password Anda salah. Silahkan coba lagi!')</script>";
 				}
 			}
 		?>
 	</div>
 	<br>
-	<div align="center">
+	<div align="center"; class="alert alert-warning" role="alert">
+
 		<form method="post" action="">
-			<label>Nama</label>
+			<label>Username</label>
 			<br>
-			<input type="text" name="nmp"><br><br>
-			<label>Alamat</label>
+			<input type="text" placeholder="Username" name="usm" required><br><br>
+			<label>Password</label>
 			<br>
-			<textarea name="alp"></textarea><br><br>
-			<label>No. Telp</label>
-			<br>
-			<input type="text" name="ntp"><br><br>
-			<button type="submit" name="sb">SUBMIT</button>
+			<input type="password" placeholder="Password" name="psw" required><br><br>
+			<button type="submit" name="sb">Submit</button>
+
 		</form>
 	</div>
 </body>
