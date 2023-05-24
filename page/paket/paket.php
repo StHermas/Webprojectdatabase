@@ -11,7 +11,7 @@
         <a href="?page=TambahPaket" type="button" class="btn btn-sm btn-primary mr-3"><i
             class="fas fa-plus fa-sm text-white"></i> Tambah Data</a>
         <a href="page/paket/laporanpaket.php" target="_blank" type="button" class="btn btn-sm btn-info mr-3"><i
-            class="fas fa-download fa-sm text-white"></i> Hasilkan PDF</a>
+            class="fas fa-download fa-sm text-white"></i> Unduh PDF</a>
       </div>
       <!-- END: Button -->
       <table id="dataTables" class="table table-hover">
