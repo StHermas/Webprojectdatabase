@@ -1,8 +1,8 @@
 <?php
 
   // define ('SITE_ROOT', realpath(dirname(__FILE__)));
-  require_once __DIR__ . './../../asset/vendor/mPDF-8/autoload.php';
-  require __DIR__ . './../../load/function.php';
+  require_once 'C:\xampp\htdocs\webproject\asset\vendor\mPDF-8\autoload.php';
+  require  'C:\xampp\htdocs\webproject\load\function.php';
 
   $query = "SELECT tbl_transaksi.id, tbl_transaksi.tanggal ,tbl_pelanggan.nama, tbl_paket.paket, tbl_transaksi.qty, tbl_transaksi.biaya, tbl_transaksi.bayar, tbl_transaksi.kembalian 
             FROM tbl_transaksi 

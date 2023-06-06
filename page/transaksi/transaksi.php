@@ -20,7 +20,7 @@
       <!-- START: Button -->
       <div class="d-flex justify-content-start mb-4">
         <a href="?page=TambahTransaksi" type="button" class="btn btn-sm btn-primary mr-3"><i class="fas fa-plus fa-sm text-white"></i> Tambah Data</a>
-        <a href="page/transaksi/laporantransaksi.php" target="_blank" type="button" class="btn btn-sm btn-info mr-3"><i class="fas fa-download fa-sm text-white"></i> Hasilkan PDF</a>
+        <a href="page/transaksi/laporantransaksi.php" target="_blank" type="button" class="btn btn-sm btn-info mr-3"><i class="fas fa-download fa-sm text-white"></i> Download PDF</a>
       </div>
       <!-- END: Button -->
       <table id="dataTables" class="table table-hover">

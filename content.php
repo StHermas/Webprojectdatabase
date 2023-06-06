@@ -69,6 +69,13 @@
 			break;
 		case 'UbahPassword':
 			include 'page/user/ubahpassword.php';
+			break;
+		// Pekerjaan
+		case 'Pekerjaan':
+			include 'page/pekerjaan/pekerjaan.php';
+			break;
+		case 'TambahPekerjaan':
+			include 'page/pekerjaan/tambahpekerjaan.php';
 			break;	
 
     default :

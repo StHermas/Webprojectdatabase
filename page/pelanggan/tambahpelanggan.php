@@ -59,7 +59,7 @@
 				<div class="form-group row">
 					<label for="no_hp" class="col-sm-2 col-form-label">Telepon Pelanggan</label>
 					<div class="col-sm-10">
-						<input type="number" class="form-control" id="no_hp" name="no_hp" min="0" maxlength="20" placeholder="Masukkan Telepon Pelanggan" autocomplete="off" required>
+						<input type="number" class="form-control" id="no_hp" name="no_hp" min="0" maxlength="20" placeholder="Masukkan Telepon Pelanggan" autocomplete="off">
 					</div>
 				</div>
 				<div class="card-footer text-center">

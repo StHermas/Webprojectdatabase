@@ -90,7 +90,7 @@
 				<div class="form-group row">
 					<label for="qty" class="col-sm-2 col-form-label">Quantity</label>
 					<div class="col-sm-10">
-						<input type="number" min="1" class="form-control" id="qty" name="qty" onkeyup="jumlahBiaya();" required>
+						<input type="number" step=".01" min="1" class="form-control" id="qty" name="qty" onkeyup="jumlahBiaya();" required>
 					</div>
 				</div>
 				<div class="form-group row">

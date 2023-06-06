@@ -50,10 +50,15 @@
 					<a class="nav-link" href="?page=Karyawan"><i class="fas fa-user"></i> Karyawan</a>
 				</li>
 				<?php endif; ?>
-				
 				<li class="nav-item ml-3">
 					<a class="nav-link " href="?page=Transaksi"><i class="fas fa-dollar-sign"></i> Transaksi</a>
 				</li>
+				<?php if($user['role']=='Karyawan'): ?>
+				<li class="nav-item ml-3">
+					<a class="nav-link" href="?page=Pekerjaan"><i class="fas fa-suitcase"></i> Pekerjaan</a>
+				</li>
+				<?php endif; ?>
+
 			</ul>
 
 			<!-- Topbar Navbar -->

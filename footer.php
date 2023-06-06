@@ -50,13 +50,23 @@
 			$('#dataTables').dataTable();
 		});
 	</script>
+	<!-- Mengambil Data Transaksi -->
+	<script type="text/javascript">
+		$(document).on('click', '.pilih-transaksi', function (e) {
+			document.getElementById("transaksi").value = $(this).attr('data-transaksi');
+			$('#modalTransaksi').modal('hide');
+		});
 
+		$(function () {
+			$('#dataTables').dataTable();
+		});
+	</script>
 	<!-- Menghitung dan menampilkan otomatis Biaya (harga * qty)-->
 	<script>
 		function jumlahBiaya() {
 			var harga = document.getElementById('harga').value;
 			var qty = document.getElementById('qty').value;
-			var result = parseInt(harga) * parseInt(qty);
+			var result = harga * qty;
 			if (!isNaN(result)) {
 				document.getElementById('biaya').value = result;
 			}
