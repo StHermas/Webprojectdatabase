@@ -41,8 +41,8 @@
             <td><?= $data['status']; ?></td>
             <td>
               &nbsp;&nbsp;
-              <a href="?page=HapusTransaksi&id=<?php echo $data['id']; ?>"
-                onclick="return confirm('Yakin ingin hapus <?= $data['id']; ?>');">
+              <a href="?page=HapusPekerjaan&id=<?php echo $data['id']; ?>"
+                onclick="return confirm('Yakin ingin hapus Pekerjaan <?= $data['id']; ?>');">
                 <span class="fas fa-trash"></span>
             </td>
           </tr>

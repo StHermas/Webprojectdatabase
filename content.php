@@ -70,6 +70,7 @@
 		case 'UbahPassword':
 			include 'page/user/ubahpassword.php';
 			break;
+
 		// Pekerjaan
 		case 'Pekerjaan':
 			include 'page/pekerjaan/pekerjaan.php';
@@ -77,6 +78,9 @@
 		case 'TambahPekerjaan':
 			include 'page/pekerjaan/tambahpekerjaan.php';
 			break;	
+		case 'HapusPekerjaan':
+			include 'page/pekerjaan/hapuspekerjaan.php';
+			break;
 
     default :
       include 'page/home.php';
