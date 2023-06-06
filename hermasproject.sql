@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2023 at 06:26 AM
+-- Generation Time: Jun 06, 2023 at 11:54 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -67,10 +67,30 @@ CREATE TABLE `tbl_paket` (
 --
 
 INSERT INTO `tbl_paket` (`id`, `paket`, `harga_kilo`, `deskripsi`) VALUES
-('PKT004', 'Setrika', 4000, 'Kalau malas setrika'),
 ('PKT001', 'Cuci Kering', 4000, 'Cuci, Kering, Selesai\r\n'),
 ('PKT002', 'Cuci Basah', 3000, 'Cuci, Selesai'),
-('PKT003', 'Cuci Setrika', 6000, 'Cuci, Kering, Setrika, Selesai');
+('PKT003', 'Cuci Setrika', 6000, 'Cuci, Kering, Setrika, Selesai'),
+('PKT004', 'Setrika', 4000, 'Kalau malas setrika');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_pekerjaan`
+--
+
+CREATE TABLE `tbl_pekerjaan` (
+  `id` int(11) NOT NULL,
+  `karyawan` int(11) NOT NULL,
+  `transaksi` varchar(10) NOT NULL,
+  `status` enum('Selesai','Belum Selesai','Selesai Separuh') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_pekerjaan`
+--
+
+INSERT INTO `tbl_pekerjaan` (`id`, `karyawan`, `transaksi`, `status`) VALUES
+(2, 4, 'TRS001', 'Selesai');
 
 -- --------------------------------------------------------
 
@@ -85,6 +105,13 @@ CREATE TABLE `tbl_pelanggan` (
   `no_hp` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_pelanggan`
+--
+
+INSERT INTO `tbl_pelanggan` (`id`, `nama`, `alamat`, `no_hp`) VALUES
+('PLG001', 'Hermas', 'Krembung', '');
+
 -- --------------------------------------------------------
 
 --
@@ -96,11 +123,18 @@ CREATE TABLE `tbl_transaksi` (
   `tanggal` varchar(20) NOT NULL,
   `id_pelanggan` varchar(10) NOT NULL,
   `kd_paket` varchar(10) NOT NULL,
-  `qty` int(11) NOT NULL,
+  `qty` decimal(5,2) NOT NULL,
   `biaya` int(11) NOT NULL,
   `bayar` int(11) NOT NULL,
   `kembalian` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_transaksi`
+--
+
+INSERT INTO `tbl_transaksi` (`id`, `tanggal`, `id_pelanggan`, `kd_paket`, `qty`, `biaya`, `bayar`, `kembalian`) VALUES
+('TRS001', '05 Jun 2023', 'PLG001', 'PKT003', '12.90', 77400, 0, -77400);
 
 --
 -- Indexes for dumped tables
@@ -117,6 +151,14 @@ ALTER TABLE `tbl_karyawan`
 --
 ALTER TABLE `tbl_paket`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_pekerjaan`
+--
+ALTER TABLE `tbl_pekerjaan`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_pegawai` (`karyawan`),
+  ADD KEY `FK__pekerjaan` (`transaksi`);
 
 --
 -- Indexes for table `tbl_pelanggan`
@@ -141,6 +183,23 @@ ALTER TABLE `tbl_transaksi`
 --
 ALTER TABLE `tbl_karyawan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tbl_pekerjaan`
+--
+ALTER TABLE `tbl_pekerjaan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tbl_pekerjaan`
+--
+ALTER TABLE `tbl_pekerjaan`
+  ADD CONSTRAINT `FK__pekerjaan` FOREIGN KEY (`transaksi`) REFERENCES `tbl_transaksi` (`id`),
+  ADD CONSTRAINT `FK_pegawai` FOREIGN KEY (`karyawan`) REFERENCES `tbl_karyawan` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
