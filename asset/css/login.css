@@ -86,6 +86,14 @@ body {
   color: #777;
 }
 
+.show-hide{
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
 /* body {
  background-color: #f5f5f5;
 }

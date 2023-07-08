@@ -4,14 +4,14 @@
 	$host = "localhost";
 	$user = "root";
 	$password = "";
-	$database = "hermasproject2";
+	$database = "hermasproject";
 
-	//Koneksi Ke Database
-	$koneksi = mysqli_connect($host, $user, $password, $database);
+//Koneksi Ke Database
+$koneksi = mysqli_connect($host, $user, $password, $database);
 
-	// Periksa Koneksi
-	if (mysqli_connect_errno()){
+// Periksa Koneksi
+if (mysqli_connect_errno()) {
 	echo "Gagal Terhubung ke database : " . mysqli_connect_error();
-	}
+}
 
 ?>
