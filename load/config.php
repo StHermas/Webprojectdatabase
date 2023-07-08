@@ -4,7 +4,7 @@
 	$host = "localhost";
 	$user = "root";
 	$password = "";
-	$database = "hermasproject";
+	$database = "hermasproject2";
 
 //Koneksi Ke Database
 $koneksi = mysqli_connect($host, $user, $password, $database);

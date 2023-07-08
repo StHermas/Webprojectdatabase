@@ -1,123 +1,155 @@
 <?php
-session_start();
-require 'load/config.php';
+    session_start();
+    require 'load/config.php';
+    require 'load/function.php';
+	if( isset($_POST['submit'])) {
+    $nama       			= addslashes($_POST['nama']);
+    $username         = stripslashes($_POST['username']);
+    $password      		= mysqli_real_escape_string($koneksi, $_POST['password']);
+		$repeat_password	= mysqli_real_escape_string($koneksi, $_POST['repeat_password']);
+		$email       			= stripslashes($_POST['email']);
+		$nohp       			= stripslashes($_POST['no_hp']);
+		$alamat       		= addslashes($_POST['alamat']);
+		$catatan       		= addslashes($_POST['catatan']);
+		$role							= "Karyawan";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    $phone = $_POST['no_hp'];
-    $password = $_POST['password'];
-    $role = "Karyawan";
-
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-    // Query untuk menyimpan data ke database
-    $query = "INSERT INTO tbl_karyawan (username, no_hp, password, role) VALUES ('$username', '$phone', '$hashedPassword', '$role')";
-
-    if (mysqli_query($koneksi, $query)) {
-        echo "Registrasi berhasil!";
-    } else {
-        echo "Error: " . $query . "<br>" . mysqli_error($koneksi);
+    // Upload image
+    $image = uploadImage('upload/karyawan');
+    if ( !$image ) {
+      return false;
     }
 
-    mysqli_close($koneksi);
-}
+    // Cek username
+    $result = mysqli_query($koneksi, "SELECT username FROM tbl_karyawan WHERE username = '$username'");
+    if ( mysqli_fetch_assoc($result) ) {
+      echo "
+				<script>
+					alert('Username sudah ada');
+				</script>
+      ";
+      return false;
+    }
+
+    // Konfirmasi password
+    if ( $password !== $repeat_password ) {
+      echo "
+				<script>
+					alert('Password Tidak sesuai');
+				</script>";
+      return false;
+    }
+
+		// Enskripsi password	
+    $password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Menambahkan user
+		$query 	= "INSERT INTO tbl_karyawan VALUES ( NULL, '$nama', '$username', '$password', '$email', '$nohp', '$alamat', '$catatan', '$image', '$role')";
+
+		if( queryData($query) > 0){
+			echo "
+				<script>
+					alert('Data berhasil ditambahkan');
+				</script>";
+			} else {
+				echo "
+					<script>
+						alert('Data gagal ditambahkan');
+					</script>";
+			}
+	}
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bintang Resik</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bintang Resik</title>
 
-    <link rel="shortcut icon" href="asset/img/favicon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="asset/img/favicon.png" type="image/x-icon">
 
-    <!-- Boostrap 4 -->
-    <link rel="stylesheet" href="asset/vendor/bootstrap-4.5.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="asset/css/login.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="asset/vendor/fontawesome/css/all.min.css">
+	<!-- Boostrap 4 -->
+	<link rel="stylesheet" href="asset/vendor/bootstrap-4.5.3/css/bootstrap.min.css">
+	<!-- Font Awesome free-->
+	<link rel="stylesheet" href="asset/vendor/fontawesome/css/all.min.css">
+	<!-- Datatables with style bootstrap 4 -->
+	<link rel="stylesheet" href="asset/vendor/datatables-b4/datatables.min.css">
 </head>
 
-<body>
-    <div class="container">
-        <form class="form-signin" action="" method="post">
-            <div class="text-center mb-4">
-                <img class="mb-4" src="asset/img/laundryku.png" alt="" width="100" height="100">
-                <h1 class="h3 mb-3 font-weight-normal">Registrasi</h1>
-                <h1 class="h3 mb-3 font-weight-normal">Bintang Resik Laundry</h1>
-                <?php if (isset($error)): ?>
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        Username atau Password salah...
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                <?php endif; ?>
-            </div>
 
-            <div class="form-label-group">
-                <input type="text" id="username" name="username" class="form-control form-control-lg" placeholder=""
-                    required="" autofocus="">
-                <label for="username">Username</label>
-            </div>
+<!-- START: Content -->
+<div class="container">
 
-            <div class="form-label-group">
-                <input type="text" id="no_hp" name="no_hp" class="form-control form-control-lg" placeholder=""
-                    required="" autofocus="">
-                <label for="no_hp">No HP</label>
-            </div>
+	<div class="card mt-4 mb-4">
+		<h5 class="card-header d-flex flex-row align-items-center justify-content-between">
+			<a>Register</a>
+			<a href="/laundry/login.php" role="button" id="dropdownMenuLink" aria-haspopup="true" aria-expanded="false">
+				<i class="fas fa-chevron-left fa-sm fa-fw"></i>
+			</a>
+		</h5>
+		<div class="card-body">
 
+			<form method="post" enctype="multipart/form-data">
+				<div class="row">
+					<div class="col-md-10">
+						<div class="form-group">
+							<label for="nama">Nama Karyawan</label>
+							<input type="text" maxlength="50" class="form-control" name="nama" id="nama"
+								placeholder="Masukkan Nama Karyawan" required autofocus>
+						</div>
+						<div class="custom-file">
+							<label for="image">Gambar Karyawan</label>
+							<input type="file" class="form-control-file" name="image" id="image" required>
+							<small>Max size is 3MB</small>
+						</div>
+					</div>
+					<div class="col">
+						<img id="imagePreview" class="mb-4" height="150px" width="150px" alt="">
+						<script type="text/javascript">
+							document.getElementById("image").onchange = function () {
+								var reader = new FileReader();
+								reader.onload = function (e) {
+									// Get loaded data and render thumbnail.
+									document.getElementById("imagePreview").src = e.target.result;
+								};
+								// Read the image file as a data URL.
+								reader.readAsDataURL(this.files[0]);
+							};
+						</script>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="username">Username</label>
+					<input type="text" maxlength="30" class="form-control" name="username" id="username" placeholder="Username" required>
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input type="password" maxlength="16" class="form-control" name="password" id="password" placeholder="Password" required>
+				</div>
+				<div class="form-group">
+					<label for="repeat_password">Repeat Password</label>
+					<input type="password" maxlength="16" class="form-control" name="repeat_password" id="repeat_password" placeholder="Repeat Password" required>
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="text" maxlength="200" class="form-control" name="email" id="email" placeholder="Email" required>
+				</div>
+				<div class="form-group">
+					<label for="no_hp">No Handphone</label>
+					<input type="number" min="0" maxlength="20" class="form-control" name="no_hp" id="no_hp" placeholder="No Handphone" required>
+				</div>
+				<div class="form-group">
+					<label for="alamat">Alamat</label>
+					<input type="text" maxlength="100" class="form-control" name="alamat" id="alamat" placeholder="Alamat" required>
+				</div>
+				<div class="form-group">
+					<label for="Catatan">Catatan</label>
+					<textarea type="text" maxlength="255" class="form-control" name="catatan" id="catatan" placeholder="Catatan" required></textarea>
+				</div>
+				<div class="card-footer text-center">
+					<button type="reset" class="btn btn-danger mr-2"><i class="fas fa-undo"></i> Reset</button>
+					<button type="submit" name="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+				</div>
+			</form>
+		</div>
+	</div>
 
-            <div class="form-label-group">
-                <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder=""
-                    required>
-                <label for="password">Password</label>
-                <span class="show-hide"><i class="fa fa-eye"></i></span>
-            </div>
-
-            <script>
-                const password = document.querySelector("#password");
-                const btnShowHide = document.querySelector(".show-hide i");
-
-                btnShowHide.addEventListener("click", function () {
-                    if (password.type === "password") {
-                        password.type = "text";
-                        btnShowHide.classList.add("fa-eye-slash");
-                    } else {
-                        password.type = "password";
-                        btnShowHide.classList.remove("fa-eye-slash");
-                    }
-                });
-            </script>
-
-            <style>
-                .show-hide {
-                    position: absolute;
-                    top: 50%;
-                    right: 10px;
-                    transform: translateY(-50%);
-                    cursor: pointer;
-                }
-            </style>
-
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit" name="register">Sign Up</button>
-            <button class="btn btn-lg btn-secondary btn-block" type="submit" name="login"
-                onclick="redirectToRegister()">Sign
-                In</button>
-            <script>
-                function redirectToRegister() {
-                    window.location.href = "login.php";
-                }
-            </script>
-            <p class="mt-5 mb-3 text-muted text-center">Kziunaaa - 2023</p>
-        </form>
-
-</body>
-<script src="asset/vendor/jquery-3.5.1/jquery-3.5.1.min.js"></script>
-<script src="asset/vendor/bootstrap-4.5.3/js/bootstrap.min.js"></script>
-<script src="asset/js/login.js"></script>
-
-</html>
+</div>
+<!-- END: Content -->

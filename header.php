@@ -26,7 +26,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<a class="navbar-brand" href="index.php">
-			<img src="asset/img/logo.png" width="30" height="30" alt="">
+			<img src="asset/img/favicon.png" width="30" height="30" alt="">
 			BINTANG RESIK
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

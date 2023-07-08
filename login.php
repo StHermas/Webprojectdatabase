@@ -73,7 +73,7 @@ if (isset($_POST['login'])) {
   <div class="container">
     <form class="form-signin" action="" method="post">
       <div class="text-center mb-4">
-        <img class="mb-4" src="asset/img/laundryku.png" alt="" width="100" height="100">
+        <img class="mb-4" src="asset/img/brl.png" alt="" width="318" height="150">
         <h1 class="h3 mb-3 font-weight-normal">Bintang Resik Laundry</h1>
         <?php if (isset($error)): ?>
           <div class="alert alert-warning alert-dismissible fade show" role="alert">
