@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2023 at 11:54 AM
+-- Generation Time: Jul 08, 2023 at 01:54 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `hermasproject`
+-- Database: `hermasproject2`
 --
 
 -- --------------------------------------------------------
@@ -47,7 +47,8 @@ CREATE TABLE `tbl_karyawan` (
 INSERT INTO `tbl_karyawan` (`id`, `nama`, `username`, `password`, `email`, `no_hp`, `alamat`, `catatan`, `image`, `role`) VALUES
 (1, 'Hermas Bintang', 'admin', '$2y$10$I2gQA7/0MUSM527ZBFyNnuMYZ2HOzKQUBzOnPf98./GNftzZk6rme', 'hermasbintang@gmail.com', '085852484937', 'Krembung', 'Pemiliki', '144Screenshot_3.png', 'Admin'),
 (4, 'Mbak Santi', 'santi', '$2y$10$HmFKgBHLg7Z1mdfqu3Jmd.Vl3MjGRQSHOQqlLAl8dm2v7F.4U0/Xy', 'santi@gmail.com', '081283830619', 'Krembung', 'Setrika', '875Screenshot_3.png', 'Karyawan'),
-(5, 'Mbak Sumiati', 'sumiati', '$2y$10$nWonKXwo4rwU1/H8aYNTk.wZ46EfDfdUQxluXKRBhDyatdCaSjvG2', 'sumiati@gmail.com', '085852484937', 'Lemujut', 'Setrika', '979Screenshot_3.png', 'Karyawan');
+(5, 'Mbak Sumiati', 'sumiati', '$2y$10$nWonKXwo4rwU1/H8aYNTk.wZ46EfDfdUQxluXKRBhDyatdCaSjvG2', 'sumiati@gmail.com', '085852484937', 'Lemujut', 'Setrika', '979Screenshot_3.png', 'Karyawan'),
+(9, 'Fajar', 'fajar1', '$2y$10$dhhAh2KBZ8dRPn.4gTC0tOZJZlOIlxBXTgipH5wIxCT9urUF.BjeK', 'h@gmail.com', '081283830611', 'OKe', 'Karyawan', '883Screenshot_3.png', 'Karyawan');
 
 -- --------------------------------------------------------
 
@@ -82,7 +83,7 @@ CREATE TABLE `tbl_pekerjaan` (
   `id` int(11) NOT NULL,
   `karyawan` int(11) NOT NULL,
   `transaksi` varchar(10) NOT NULL,
-  `status` enum('Selesai','Belum Selesai','Selesai Separuh') NOT NULL
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -90,7 +91,8 @@ CREATE TABLE `tbl_pekerjaan` (
 --
 
 INSERT INTO `tbl_pekerjaan` (`id`, `karyawan`, `transaksi`, `status`) VALUES
-(2, 4, 'TRS001', 'Selesai');
+(9, 4, 'TRS002', 1),
+(10, 5, 'TRS003', 1);
 
 -- --------------------------------------------------------
 
@@ -110,7 +112,30 @@ CREATE TABLE `tbl_pelanggan` (
 --
 
 INSERT INTO `tbl_pelanggan` (`id`, `nama`, `alamat`, `no_hp`) VALUES
-('PLG001', 'Hermas', 'Krembung', '');
+('PLG001', 'Hermas', 'Krembung', ''),
+('PLG002', 'Hermas', 'Sidotopo', ''),
+('PLG003', 'Kizuna', 'Krembung', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_status`
+--
+
+CREATE TABLE `tbl_status` (
+  `id_status` int(11) NOT NULL,
+  `nama_status` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_status`
+--
+
+INSERT INTO `tbl_status` (`id_status`, `nama_status`) VALUES
+(4, 'Proses Pencucian'),
+(1, 'Selesai'),
+(3, 'Selesai Satu Kantong'),
+(2, 'Selesai Separuh');
 
 -- --------------------------------------------------------
 
@@ -134,7 +159,9 @@ CREATE TABLE `tbl_transaksi` (
 --
 
 INSERT INTO `tbl_transaksi` (`id`, `tanggal`, `id_pelanggan`, `kd_paket`, `qty`, `biaya`, `bayar`, `kembalian`) VALUES
-('TRS001', '05 Jun 2023', 'PLG001', 'PKT003', '12.90', 77400, 0, -77400);
+('TRS001', '05 Jun 2023', 'PLG001', 'PKT003', '12.90', 77400, 0, -77400),
+('TRS002', '21 Jun 2023', 'PLG002', 'PKT002', '45.30', 135900, 0, -135900),
+('TRS003', '06 Jul 2023', 'PLG003', 'PKT001', '53.20', 212800, 225000, 12200);
 
 --
 -- Indexes for dumped tables
@@ -144,7 +171,8 @@ INSERT INTO `tbl_transaksi` (`id`, `tanggal`, `id_pelanggan`, `kd_paket`, `qty`,
 -- Indexes for table `tbl_karyawan`
 --
 ALTER TABLE `tbl_karyawan`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- Indexes for table `tbl_paket`
@@ -158,13 +186,21 @@ ALTER TABLE `tbl_paket`
 ALTER TABLE `tbl_pekerjaan`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_pegawai` (`karyawan`),
-  ADD KEY `FK__pekerjaan` (`transaksi`);
+  ADD KEY `FK__pekerjaan` (`transaksi`),
+  ADD KEY `Fk_status` (`status`);
 
 --
 -- Indexes for table `tbl_pelanggan`
 --
 ALTER TABLE `tbl_pelanggan`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_status`
+--
+ALTER TABLE `tbl_status`
+  ADD PRIMARY KEY (`id_status`),
+  ADD UNIQUE KEY `nama_status` (`nama_status`);
 
 --
 -- Indexes for table `tbl_transaksi`
@@ -182,13 +218,19 @@ ALTER TABLE `tbl_transaksi`
 -- AUTO_INCREMENT for table `tbl_karyawan`
 --
 ALTER TABLE `tbl_karyawan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_pekerjaan`
 --
 ALTER TABLE `tbl_pekerjaan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `tbl_status`
+--
+ALTER TABLE `tbl_status`
+  MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -199,7 +241,8 @@ ALTER TABLE `tbl_pekerjaan`
 --
 ALTER TABLE `tbl_pekerjaan`
   ADD CONSTRAINT `FK__pekerjaan` FOREIGN KEY (`transaksi`) REFERENCES `tbl_transaksi` (`id`),
-  ADD CONSTRAINT `FK_pegawai` FOREIGN KEY (`karyawan`) REFERENCES `tbl_karyawan` (`id`);
+  ADD CONSTRAINT `FK_pegawai` FOREIGN KEY (`karyawan`) REFERENCES `tbl_karyawan` (`id`),
+  ADD CONSTRAINT `Fk_status` FOREIGN KEY (`status`) REFERENCES `tbl_status` (`id_status`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
