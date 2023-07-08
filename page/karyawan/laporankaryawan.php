@@ -1,8 +1,8 @@
 <?php
 
   // define ('SITE_ROOT', realpath(dirname(__FILE__)));
-  require_once __DIR__ . './../../asset/vendor/mPDF-8/autoload.php';
-  require __DIR__ . './../../load/function.php';
+  require_once 'C:\xampp\htdocs\webproject\asset\vendor\mPDF-8\autoload.php';
+  require 'C:\xampp\htdocs\webproject\load\function.php';
 
   $karyawan = viewDatas("SELECT * FROM `tbl_karyawan` WHERE tbl_karyawan.role = 'Karyawan'");
   $reportDate = date('l, d M Y');

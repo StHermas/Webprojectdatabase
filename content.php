@@ -81,6 +81,12 @@
 		case 'HapusPekerjaan':
 			include 'page/pekerjaan/hapuspekerjaan.php';
 			break;
+		case 'EditPekerjaan':
+			include 'page/pekerjaan/editpekerjaan.php';
+			break;
+		case 'TambahStatus':
+			include 'page/pekerjaan/tambahstatus.php';
+			break;
 
     default :
       include 'page/home.php';

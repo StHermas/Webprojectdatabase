@@ -1,10 +1,12 @@
 <?php 
-  $query = "SELECT tbl_pekerjaan.id, tbl_karyawan.nama, tbl_transaksi.qty, tbl_pekerjaan.status 
+  $query = "SELECT tbl_pekerjaan.id, tbl_karyawan.nama, tbl_transaksi.qty, tbl_status.nama_status
             FROM tbl_pekerjaan 
             INNER JOIN tbl_karyawan 
             ON tbl_pekerjaan.karyawan = tbl_karyawan.id 
             INNER JOIN tbl_transaksi 
-            ON tbl_pekerjaan.transaksi = tbl_transaksi.id"
+            ON tbl_pekerjaan.transaksi = tbl_transaksi.id
+            INNER JOIN tbl_status
+            ON tbl_pekerjaan.status = tbl_status.id_status"
 ?> 
 
 <!-- START:Content-->
@@ -38,8 +40,11 @@
             <td><?= $no++;?></td>
             <td><?= $data['nama']; ?></td>
             <td><?= $data['qty']; ?> kg</td>
-            <td><?= $data['status']; ?></td>
+            <td><?= $data['nama_status']; ?></td>
             <td>
+            <a href="?page=EditPekerjaan&id=<?php echo $data['id']; ?>">
+                <span class="fas fa-edit"></span>
+              </a>
               &nbsp;&nbsp;
               <a href="?page=HapusPekerjaan&id=<?php echo $data['id']; ?>"
                 onclick="return confirm('Yakin ingin hapus Pekerjaan <?= $data['id']; ?>');">
